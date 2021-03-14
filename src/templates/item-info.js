@@ -1,12 +1,15 @@
 import React from "react"
-import { graphql } from "gatsby"
+import { Link, graphql } from "gatsby"
 import Layout from "../components/layout"
 
 export default function BlogPost({ data }) {
   const item = data.items
+  let imgName = item.name.replace(/ /gi, "_")
+  console.log(imgName)
   return (
     <Layout>
-      {item.category} > {item.name}
+      <Link to={`${item.category}`}>{item.category}</Link>>
+      <Link to={`${item.name}`}>{item.name}</Link>
       <br /> image, name, desc, data, collected(biomes), ingredient, crafting
       <div style={{ display: "flex", border: "1px solid black" }}>
         <div>
@@ -22,7 +25,9 @@ export default function BlogPost({ data }) {
             )
           })}
         </div>
-        <div> image</div>
+        <div>
+          <img src={`${imgName}.png`} alt={imgName} />
+        </div>
       </div>
       <p>{item.ingredient}</p>
       <p>{item.craft}</p>
@@ -37,6 +42,9 @@ export const query = graphql`
       with
       name
       desc
+      craft
+      category
+      ingredient
       data {
         craft {
           count
@@ -48,8 +56,6 @@ export const query = graphql`
         stamina
         weight
       }
-      craft
-      category
     }
   }
 `
