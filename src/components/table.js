@@ -31,11 +31,7 @@ const Layout = ({ data, category }) => {
                             alt={imgName}
                             height="50px"
                           />
-                          <Link
-                            to={`/item/${
-                              node.category
-                            }/${node.name.toLowerCase().replace(/ /gi, "-")}`}
-                          >
+                          <Link to={`/${node.name.replace(/ /gi, "-")}`}>
                             {node.name}
                           </Link>
                         </div>
@@ -45,14 +41,16 @@ const Layout = ({ data, category }) => {
                     return (
                       <td key={i}>
                         {node.data.craft.map((v, i) => (
-                          <span key={i}>
-                            <img
-                              src={`${v.name}.png`}
-                              alt={v.name}
-                              height="50px"
-                            />
-                            x{v.count}
-                          </span>
+                          <Link to={`/${v.name.replace(/ /gi, "-")}`}>
+                            <span key={i}>
+                              <img
+                                src={`${v.name}.png`}
+                                alt={v.name}
+                                height="50px"
+                              />
+                              x{v.count}
+                            </span>
+                          </Link>
                         ))}
                       </td>
                     )
