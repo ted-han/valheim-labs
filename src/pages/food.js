@@ -9,7 +9,19 @@ const FoodPage = ({ data }) => {
     <Layout>
       <SEO title="Home" />
       <h1>Food</h1>
-      <Table data={data} category="food" />
+      <Table
+        data={data.allItems.edges.filter(
+          ({ node }) => node.sub_category === "Food"
+        )}
+        category="Food"
+      />
+      <h1>Mead</h1>
+      <Table
+        data={data.allItems.edges.filter(
+          ({ node }) => node.sub_category === "Mead"
+        )}
+        category="Mead"
+      />
     </Layout>
   )
 }
@@ -18,21 +30,25 @@ export default FoodPage
 
 export const query = graphql`
   {
-    allItems(filter: { category: { eq: "food" } }) {
+    allItems(
+      sort: { fields: health, order: ASC }
+      filter: { category: { eq: "Food" } }
+    ) {
       edges {
         node {
           id
           name
           category
-          data {
-            health
-            stamina
-            duration
-            weight
-            craft {
-              count
-              name
-            }
+          sub_category
+          health
+          stamina
+          duration
+          healing
+          weight
+          effects
+          craft {
+            count
+            name
           }
         }
       }
