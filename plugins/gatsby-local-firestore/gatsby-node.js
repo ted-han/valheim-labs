@@ -20,12 +20,15 @@ exports.sourceNodes = async ({
   // 어디에 사용되는 재료인지 확인
   let ingredient = {}
   snapshot.forEach(doc => {
-    if (doc.data().craft.length >= 2) {
-      for (let v of doc.data().craft) {
-        ingredient[v]
-          ? ingredient[v].push(doc.data().name)
-          : (ingredient[v] = [doc.data().name])
-      }
+    for (let v of doc.data().craft) {
+      ingredient[v.name]
+        ? ingredient[v.name].push({
+            name: doc.data().name,
+            craft: doc.data().craft,
+          })
+        : (ingredient[v.name] = [
+            { name: doc.data().name, craft: doc.data().craft },
+          ])
     }
   })
 

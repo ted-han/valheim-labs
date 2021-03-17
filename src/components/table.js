@@ -3,7 +3,16 @@ import { Link } from "gatsby"
 
 const Layout = ({ data, category }) => {
   const order = {
-    food: ["item", "health", "stamina", "duration", "weight", "craft"],
+    Food: [
+      "item",
+      "health",
+      "stamina",
+      "duration",
+      "healing",
+      "weight",
+      "craft",
+    ],
+    Mead: ["item", "effects", "duration", "weight", "craft"],
   }
   const itemOrder = order[category]
   return (
@@ -12,12 +21,18 @@ const Layout = ({ data, category }) => {
         <thead>
           <tr>
             {itemOrder.map((v, i) => (
-              <td key={i}>{v}</td>
+              <td key={i}>
+                {v === "duration"
+                  ? v + "(sec)"
+                  : v === "healing"
+                  ? v + "(hp/tick)"
+                  : v}
+              </td>
             ))}
           </tr>
         </thead>
         <tbody>
-          {data.allItems.edges.map(({ node }) => {
+          {data.map(({ node }) => {
             return (
               <tr key={node.id}>
                 {itemOrder.map((v, i) => {
@@ -37,10 +52,10 @@ const Layout = ({ data, category }) => {
                         </div>
                       </td>
                     )
-                  } else if (v === "craft" && node.data.craft) {
+                  } else if (v === "craft" && node.craft) {
                     return (
                       <td key={i}>
-                        {node.data.craft.map((v, i) => (
+                        {node.craft.map((v, i) => (
                           <Link to={`/${v.name.replace(/ /gi, "-")}`}>
                             <span key={i}>
                               <img
@@ -55,7 +70,7 @@ const Layout = ({ data, category }) => {
                       </td>
                     )
                   }
-                  return <td key={i}>{node.data[v]}</td>
+                  return <td key={i}>{node[v]}</td>
                 })}
               </tr>
             )
