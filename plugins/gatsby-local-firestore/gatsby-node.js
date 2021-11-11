@@ -48,5 +48,17 @@ exports.sourceNodes = async ({
     })
   })
 
+  createNode({
+    id: "tk",
+    namd: "tk",
+    parent: null,
+    children: [],
+    internal: {
+      type: "tk",
+      content: JSON.stringify({}),
+      contentDigest: createContentDigest({}),
+    },
+  })
+
   return
 }
